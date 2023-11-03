@@ -1,8 +1,7 @@
-using Sirenix.OdinInspector;
 using System;
 using Unity.Netcode;
 
-namespace Trell.DefenseFromMonster.Core
+namespace Trellcko.DefenseFromMonster.Core
 {
     public class Currency : NetworkBehaviour
     {

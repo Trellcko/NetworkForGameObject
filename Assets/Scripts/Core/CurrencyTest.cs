@@ -1,8 +1,8 @@
 using Sirenix.OdinInspector;
-using Trell.DefenseFromMonster.Core;
+using Trellcko.DefenseFromMonster.Core;
 using UnityEngine;
 
-namespace Trell
+namespace Trellcko
 {
     public class CurrencyTest : MonoBehaviour
     {

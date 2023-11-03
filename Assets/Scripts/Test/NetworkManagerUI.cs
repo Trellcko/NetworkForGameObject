@@ -1,7 +1,7 @@
 using Unity.Netcode;
 using UnityEngine;
 
-namespace Trell.DefenseFromMonster.Test
+namespace Trellcko.DefenseFromMonster.Test
 {
     public class NetworkManagerUI : MonoBehaviour
     {

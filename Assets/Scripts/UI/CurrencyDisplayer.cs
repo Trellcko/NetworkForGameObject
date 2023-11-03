@@ -1,8 +1,8 @@
 using TMPro;
-using Trell.DefenseFromMonster.Core;
+using Trellcko.DefenseFromMonster.Core;
 using UnityEngine;
 
-namespace Trell.DefenseFromMonster.UI
+namespace Trellcko.DefenseFromMonster.UI
 {
     public class CurrencyDisplayer : MonoBehaviour
     {

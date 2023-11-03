@@ -1,16 +1,17 @@
 using System;
 using UnityEngine;
 
-namespace Trell.DefenseFromMonster.Input
+namespace Trellcko.DefenseFromMonster.Input
 {
     public class InputEvents : MonoBehaviour
     {
         [SerializeField] private InputActions _inputActions;
         public static InputEvents Instance { get; private set; }
 
-        public event Action<Vector2> MovementPerfomed;
+        public static event Action<Vector2> MovementPerfomed;
+        public static event Action MovementCanceled;
 
-        public event Action MovementCanceled;
+        public static event Action InteractPerformed;
 
         private void Awake()
         {
@@ -30,12 +31,20 @@ namespace Trell.DefenseFromMonster.Input
         {
             _inputActions.Player.Movement.performed += OnMovementPerformed;
             _inputActions.Player.Movement.canceled += OnMovementCanceled;
+            _inputActions.Player.Interact.performed += OnInteractPerfomed;
         }
 
         private void OnDisable()
         {
             _inputActions.Player.Movement.performed -= OnMovementPerformed;
             _inputActions.Player.Movement.canceled -= OnMovementCanceled;
+            _inputActions.Player.Interact.performed-= OnInteractPerfomed;
+        }
+
+        private void OnInteractPerfomed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+        {
+            print("Lalalal");
+            InteractPerformed?.Invoke();
         }
 
         private void OnMovementPerformed(UnityEngine.InputSystem.InputAction.CallbackContext obj)

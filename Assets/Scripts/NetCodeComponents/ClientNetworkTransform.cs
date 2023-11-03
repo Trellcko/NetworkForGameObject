@@ -1,7 +1,7 @@
 using Unity.Netcode.Components;
 using UnityEngine;
 
-namespace Trell.DefenseFromMonster.Core
+namespace Trellcko.DefenseFromMonster.Core
 {
     [DisallowMultipleComponent]
     public class ClientNetworkTransform : NetworkTransform
