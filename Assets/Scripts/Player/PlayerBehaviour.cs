@@ -1,4 +1,6 @@
+using Cinemachine;
 using Sirenix.OdinInspector;
+using System;
 using Trellcko.DefenseFromMonster.Core.SM;
 using Unity.Netcode;
 using UnityEngine;
@@ -9,11 +11,10 @@ namespace Trellcko.DefenseFromMonster.Player
     {
         [SerializeField] private PlayerAnimatorController _animator;
 
-        [BoxGroup("Stats")]
-        [TitleGroup("Stats/Movement")]
         [SerializeField] private float _speed;
-        [TitleGroup("Stats/Movement")]
         [SerializeField] private float _angularSpeed;
+
+        public static event Action<PlayerBehaviour> Spawned;
 
         private StateMachine _stateMachine;
 
@@ -24,7 +25,9 @@ namespace Trellcko.DefenseFromMonster.Player
                 new PlayerInteractingState(_animator)
                 );
             _stateMachine.SetState<PlayerMovingState>();
+            Spawned?.Invoke(this);
         }
+
         private void FixedUpdate()
         {
             _stateMachine?.FixedUpdate();
