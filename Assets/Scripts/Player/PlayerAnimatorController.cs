@@ -1,3 +1,4 @@
+using System;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -6,6 +7,8 @@ namespace Trellcko.DefenseFromMonster.Player
     public class PlayerAnimatorController : NetworkBehaviour
     {
         [SerializeField] private Animator _animator;
+
+        public event Action PlayerInteractAnimationCompleted;
 
         public const string SpeedParameterName = "Speed";
         public const string AttackParameterName = "Attack";
@@ -26,6 +29,11 @@ namespace Trellcko.DefenseFromMonster.Player
                 _animator.transform.localPosition = Vector3.zero;
                 _animator.SetTrigger(AttackParameterName);
             }
+        }
+ 
+        public void InvokeEventPlayerInteractAnimationCompleted()
+        {
+            PlayerInteractAnimationCompleted?.Invoke();
         }
     }
 }

@@ -23,13 +23,13 @@ namespace Trellcko.DefenseFromMonster.Core.SM
         }
         public void Update()
         {
-            _currentState?.CheckTransition();
-            _currentState?.Update();
+            _currentState.CheckTransition();
+            _currentState.Update();
         }
 
         public void FixedUpdate()
         {
-            _currentState?.FixedUpdate();
+            _currentState.FixedUpdate();
         }
         public void SetState<T>() where T : BaseState
         {
