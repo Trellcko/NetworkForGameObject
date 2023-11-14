@@ -1,3 +1,4 @@
+using System;
 using Trellcko.DefenseFromMonster.Core;
 using Unity.Netcode;
 using UnityEngine;
@@ -11,6 +12,9 @@ namespace Trellcko.DefenseFromMonster.Network
 
         public static NetworkConnecntionHandler Instansce;
 
+        public event Action TryingConnect;
+        public event Action ConnectionCanceled;
+
         private void Awake()
         {
             Instansce = this;
@@ -20,12 +24,24 @@ namespace Trellcko.DefenseFromMonster.Network
         public void StartHost()
         {
             NetworkManager.Singleton.StartHost();
+            NetworkManager.Singleton.ConnectionApprovalCallback -= OnConnectionApproval;
             NetworkManager.Singleton.ConnectionApprovalCallback += OnConnectionApproval;
+            TryingConnect?.Invoke();
+            NetworkManager.Singleton.OnClientDisconnectCallback -= OnClientDisconnectCallback;
+            NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnectCallback;
         }
 
         public void StartClient()
         {
             NetworkManager.Singleton.StartClient();
+            TryingConnect?.Invoke();
+            NetworkManager.Singleton.OnClientDisconnectCallback -= OnClientDisconnectCallback;
+            NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnectCallback;
+        }
+
+        private void OnClientDisconnectCallback(ulong obj)
+        {
+            ConnectionCanceled?.Invoke();
         }
 
         public override void OnNetworkSpawn()
@@ -55,6 +71,7 @@ namespace Trellcko.DefenseFromMonster.Network
                 response.Reason = "Game is full";
                 return;
             }
+
             response.Approved = true;
 
         }
