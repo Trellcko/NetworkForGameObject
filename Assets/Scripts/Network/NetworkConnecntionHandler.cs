@@ -14,6 +14,7 @@ namespace Trellcko.DefenseFromMonster.Network
 
         public event Action TryingConnect;
         public event Action ConnectionCanceled;
+        public const int MaxPlayers = 2;
 
         private void Awake()
         {
@@ -65,7 +66,7 @@ namespace Trellcko.DefenseFromMonster.Network
                 response.Reason = "Game is alredy start";
                 return;
             }
-            if(NetworkManager.Singleton.ConnectedClientsIds.Count > 2)
+            if(NetworkManager.Singleton.ConnectedClientsIds.Count > MaxPlayers)
             {
                 response.Approved = false;
                 response.Reason = "Game is full";

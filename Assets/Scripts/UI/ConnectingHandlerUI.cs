@@ -19,7 +19,7 @@ namespace Trellcko.DefenseFromMonster.UI
             _closeButton.onClick.AddListener(Close);
         }
 
-        private void OnDisable()
+        private void OnDestroy()
         {
             NetworkConnecntionHandler.Instansce.TryingConnect -= ShowConnecting;
             _closeButton.onClick.RemoveListener(Close);
