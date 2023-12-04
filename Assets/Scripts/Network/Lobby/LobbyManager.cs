@@ -16,6 +16,7 @@ namespace Trellcko.DefenseFromMonster.Network.Lobby
         [SerializeField] private float _maxTimeToUpdateLobby = 1.1f;
 
         private Unity.Services.Lobbies.Models.Lobby _hostLobby;
+        private Unity.Services.Lobbies.Models.Lobby _joinedLobby;
 
         private float _timeToSendHeartBeat;
         private float _timeToUpdateLobby;
@@ -43,7 +44,8 @@ namespace Trellcko.DefenseFromMonster.Network.Lobby
             _timeToUpdateLobby += Time.deltaTime;
             if (_timeToUpdateLobby > _maxTimeToUpdateLobby)
             {
-                await LobbyService.Instance.GetLobbyAsync("id");
+                var updatedLobby = await LobbyService.Instance.GetLobbyAsync("id");
+                _joinedLobby = updatedLobby;
                 _timeToUpdateLobby = 0;
             }
         }
@@ -70,7 +72,6 @@ namespace Trellcko.DefenseFromMonster.Network.Lobby
             try 
             {
                 var response = await LobbyService.Instance.QueryLobbiesAsync();
-
                 Debug.Log("Lobbies Count: " + response.Results.Count);
             }
             catch(LobbyServiceException ex)
