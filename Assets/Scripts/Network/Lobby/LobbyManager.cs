@@ -1,11 +1,13 @@
 using QFSW.QC;
-using System.Collections;
-using System.Threading.Tasks;
+using System;
+using System.Collections.Generic;
 using Unity.Services.Authentication;
+using Unity.Services.Core;
 using Unity.Services.Lobbies;
+using Unity.Services.Lobbies.Models;
 using UnityEngine;
 
-namespace Trellcko.DefenseFromMonster.Network.Lobby
+namespace Trellcko.DefenseFromMonster.Network.LobbyLogic
 {
     public class LobbyManager : MonoBehaviour
     {
@@ -15,11 +17,16 @@ namespace Trellcko.DefenseFromMonster.Network.Lobby
         [Min(1.1f)]
         [SerializeField] private float _maxTimeToUpdateLobby = 1.1f;
 
-        private Unity.Services.Lobbies.Models.Lobby _hostLobby;
-        private Unity.Services.Lobbies.Models.Lobby _joinedLobby;
+        [SerializeField] private float _maxTimeToRefreshLobbiesList;
+
+        private Lobby _hostLobby;
+        private Lobby _joinedLobby;
+
+        public event Action<List<Lobby>> LobbiesListUpdated;
 
         private float _timeToSendHeartBeat;
         private float _timeToUpdateLobby;
+        private float _timeToRefreshLobbiesList;
 
         private void Update()
         {
@@ -66,13 +73,24 @@ namespace Trellcko.DefenseFromMonster.Network.Lobby
             }
         }
 
-        [Command]
-        public async void GetLobbies()
+        public async void RefreshLobbiesList()
         {
             try 
             {
-                var response = await LobbyService.Instance.QueryLobbiesAsync();
-                Debug.Log("Lobbies Count: " + response.Results.Count);
+                if (UnityServices.State == ServicesInitializationState.Initialized && AuthenticationService.Instance.IsSignedIn)
+                {
+                    if (_timeToRefreshLobbiesList > _maxTimeToRefreshLobbiesList)
+                    {
+                        var response = await LobbyService.Instance.QueryLobbiesAsync();
+                        _timeToRefreshLobbiesList = 0;
+                        LobbiesListUpdated?.Invoke(response.Results);
+                    }
+                    else
+                    {
+                        _timeToRefreshLobbiesList += Time.deltaTime;
+                    }
+
+                }
             }
             catch(LobbyServiceException ex)
             {

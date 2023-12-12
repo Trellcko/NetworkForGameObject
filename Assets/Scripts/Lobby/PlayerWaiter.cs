@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using Unity.Netcode;
-using UnityEngine;
 using Trellcko.DefenseFromMonster.Core;
 
-namespace Trellcko.DefenseFromMonster.Lobby.PlayerWaiter
+namespace Trellcko.DefenseFromMonster.Network
 {
     public class PlayerWaiter : NetworkBehaviour
     {
@@ -20,10 +19,10 @@ namespace Trellcko.DefenseFromMonster.Lobby.PlayerWaiter
         {
             _readyPlayers.Add(param.Receive.SenderClientId, true);
 
-            
-            foreach(var player in NetworkManager.Singleton.ConnectedClientsIds)
+
+            foreach (var player in NetworkManager.Singleton.ConnectedClientsIds)
             {
-                if(!_readyPlayers.ContainsKey(player) || !_readyPlayers[player])
+                if (!_readyPlayers.ContainsKey(player) || !_readyPlayers[player])
                 {
                     return;
                 }
