@@ -7,10 +7,11 @@ namespace Trellcko.DefenseFromMonster.UI.LobbyScene
 {
     public class LobbyList : MonoBehaviour
     {
-        [SerializeField] private float _timeToRefresh;
+        [SerializeField] private LobbyListItem _prefab;
+        [SerializeField] private RectTransform _parent;
         [SerializeField] private LobbyManager _manager;
 
-        [SerializeField] private List<LobbyListItem> _lobbyListItems;
+        private List<LobbyListItem> _lobbyListItems = new();
 
         private float _currentTime;
 
@@ -26,7 +27,7 @@ namespace Trellcko.DefenseFromMonster.UI.LobbyScene
 
         public LobbyListItem CreateLobbyListItem()
         {
-            return null;
+            return Instantiate(_prefab, _parent);
         }
 
         private void OnLobbiesListUpdated(List<Lobby> lobbies)

@@ -1,28 +1,21 @@
 using System;
 using UnityEngine;
+using Trellcko.DefenseFromMonster.Core;
 
 namespace Trellcko.DefenseFromMonster.Input
 {
-    public class InputEvents : MonoBehaviour
+    public class InputEvents : Singelton<InputEvents>
     {
         [SerializeField] private InputActions _inputActions;
-        public static InputEvents Instance { get; private set; }
 
         public static event Action<Vector2> MovementPerfomed;
         public static event Action MovementCanceled;
 
         public static event Action InteractPerformed;
 
-        private void Awake()
+        public override void Awake()
         {
-            if(FindObjectsOfType<InputEvents>().Length > 1)
-            {
-                Destroy(gameObject);
-                return;
-            }
-
-            Instance = this;
-
+            base.Awake();
             _inputActions = new InputActions();
             _inputActions.Enable();
         }

@@ -15,13 +15,13 @@ namespace Trellcko.DefenseFromMonster.UI
 
         private void Start()
         {
-            NetworkConnecntionHandler.Instansce.TryingConnect += ShowConnecting;
+            NetworkConnecntionHandler.Instance.TryingConnect += ShowConnecting;
             _closeButton.onClick.AddListener(Close);
         }
 
         private void OnDestroy()
         {
-            NetworkConnecntionHandler.Instansce.TryingConnect -= ShowConnecting;
+            NetworkConnecntionHandler.Instance.TryingConnect -= ShowConnecting;
             _closeButton.onClick.RemoveListener(Close);
         }
 

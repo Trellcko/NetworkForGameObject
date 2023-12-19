@@ -1,6 +1,7 @@
 using Trellcko.DefenseFromMonster.Core;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Trellcko.DefenseFromMonster.UI
@@ -22,9 +23,7 @@ namespace Trellcko.DefenseFromMonster.UI
         private void Leave()
         {
             NetworkManager.Singleton.Shutdown();
-            NetworkManager.Singleton.SceneManager.LoadScene(
-                SceneName.LobbyScene.ToString(), 
-                UnityEngine.SceneManagement.LoadSceneMode.Single);
+            SceneLoader.Instance.LoadScene(SceneName.LobbyScene);
         }
     }
 }

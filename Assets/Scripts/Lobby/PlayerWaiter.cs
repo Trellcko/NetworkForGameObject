@@ -27,7 +27,7 @@ namespace Trellcko.DefenseFromMonster.Network
                     return;
                 }
             }
-            NetworkManager.SceneManager.LoadScene(SceneName.GameScene.ToString(), UnityEngine.SceneManagement.LoadSceneMode.Single);
+            SceneLoader.Instance.LoadScene(SceneName.GameScene);
         }
     }
 }

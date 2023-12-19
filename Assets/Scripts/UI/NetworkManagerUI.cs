@@ -9,12 +9,12 @@ namespace Trellcko.DefenseFromMonster.Test
     {
         public void StartLikeHost()
         {
-            NetworkConnecntionHandler.Instansce.StartHost();
+            NetworkConnecntionHandler.Instance.StartHost();
             NetworkManager.Singleton.SceneManager.LoadScene(SceneName.WaitingScene.ToString(), UnityEngine.SceneManagement.LoadSceneMode.Single);
         }
         public void StartLikeClient()
         {
-            NetworkConnecntionHandler.Instansce.StartClient();
+            NetworkConnecntionHandler.Instance.StartClient();
         }
     }
 }

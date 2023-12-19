@@ -6,21 +6,13 @@ using UnityEngine.SceneManagement;
 
 namespace Trellcko.DefenseFromMonster.Network
 {
-    public class NetworkConnecntionHandler : NetworkBehaviour
+    public class NetworkConnecntionHandler : NetworkSingelton<NetworkConnecntionHandler>
     {
         [SerializeField] private NetworkObject _player;
-
-        public static NetworkConnecntionHandler Instansce;
 
         public event Action TryingConnect;
         public event Action ConnectionCanceled;
         public const int MaxPlayers = 2;
-
-        private void Awake()
-        {
-            Instansce = this;
-            DontDestroyOnLoad(gameObject);
-        }
 
         public void StartHost()
         {
