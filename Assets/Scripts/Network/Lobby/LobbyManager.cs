@@ -1,6 +1,8 @@
 using QFSW.QC;
 using System;
 using System.Collections.Generic;
+using Trellcko.DefenseFromMonster.Core;
+using Unity.Netcode;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
 using Unity.Services.Lobbies;
@@ -9,7 +11,7 @@ using UnityEngine;
 
 namespace Trellcko.DefenseFromMonster.Network.LobbyLogic
 {
-    public class LobbyManager : MonoBehaviour
+    public class LobbyManager : Singelton<LobbyManager>
     {
         [Min(30)]
         [SerializeField] private float _maxTimeToSendHeartBeat = 30f;
@@ -18,19 +20,35 @@ namespace Trellcko.DefenseFromMonster.Network.LobbyLogic
         [SerializeField] private float _maxTimeToUpdateLobby = 1.1f;
 
         [SerializeField] private float _maxTimeToRefreshLobbiesList;
+        
+        public List<Lobby> Lobbies { get; private set; }
 
         private Lobby _hostLobby;
         private Lobby _joinedLobby;
-
-        public event Action<List<Lobby>> LobbiesListUpdated;
 
         private float _timeToSendHeartBeat;
         private float _timeToUpdateLobby;
         private float _timeToRefreshLobbiesList;
 
+        public event Action<List<Lobby>> LobbiesListUpdated;
+
         private void Update()
         {
             HandleSendHeartBeat();
+            HandlePollLobbyForUpdates();
+            if (_hostLobby == null && _joinedLobby == null)
+            {
+                RefreshLobbiesList();
+            }
+        }
+
+        public string GetJoinedLobbyId()
+        {
+            if (_joinedLobby != null)
+            {
+                return _joinedLobby.Id;
+            }
+            return "";
         }
 
         private async void HandleSendHeartBeat()
@@ -40,20 +58,23 @@ namespace Trellcko.DefenseFromMonster.Network.LobbyLogic
                 _timeToSendHeartBeat += Time.deltaTime;
                 if (_timeToSendHeartBeat > _maxTimeToSendHeartBeat)
                 {
-                    await LobbyService.Instance.SendHeartbeatPingAsync(_hostLobby.Id);
                     _timeToSendHeartBeat = 0;
+                    await LobbyService.Instance.SendHeartbeatPingAsync(_hostLobby.Id);
                 }
             }
         }
 
-        private async void HadnlePollLobbyForUpdates()
+        public async void HandlePollLobbyForUpdates()
         {
-            _timeToUpdateLobby += Time.deltaTime;
-            if (_timeToUpdateLobby > _maxTimeToUpdateLobby)
+            if (_joinedLobby != null)
             {
-                var updatedLobby = await LobbyService.Instance.GetLobbyAsync("id");
-                _joinedLobby = updatedLobby;
-                _timeToUpdateLobby = 0;
+                _timeToUpdateLobby += Time.deltaTime;
+                if (_timeToUpdateLobby > _maxTimeToUpdateLobby)
+                {
+                    _timeToUpdateLobby = 0;
+                    var updatedLobby = await LobbyService.Instance.GetLobbyAsync(_joinedLobby.Id);
+                    _joinedLobby = updatedLobby;
+                }
             }
         }
 
@@ -66,9 +87,48 @@ namespace Trellcko.DefenseFromMonster.Network.LobbyLogic
                     (AuthenticationService.Instance.PlayerName + "`s game", 2);
                 Debug.Log("Lobby: " + AuthenticationService.Instance.PlayerName + "`s game is created");
                 _hostLobby = lobby;
+                _joinedLobby = lobby;
+                NetworkManager.Singleton.StartHost();
+                SceneLoader.Instance.LoadScene(SceneName.WaitingScene);
             }
-            catch(LobbyServiceException ex)
+            catch(Exception ex)
             {
+                Debug.LogException(ex);
+            }
+        }
+
+        public async void JoinByCode(string id)
+        {
+            try
+            {
+                NetworkManager.Singleton.StartClient();
+                var lobby = await LobbyService.Instance.GetLobbyAsync(id);
+                _joinedLobby = lobby;
+            }
+            catch (Exception e)
+            {
+                Debug.LogException(e);
+            }
+        }
+
+        public async void QuickJoinToLobby()
+        {
+            try
+            {
+                if (Lobbies.Count > 0)
+                {
+                    var lobby = await LobbyService.Instance.QuickJoinLobbyAsync();
+                    _joinedLobby = lobby;
+                    NetworkManager.Singleton.StartClient();
+                }
+                else
+                {
+                    CreateLobby();
+                }
+            }
+            catch (Exception ex)
+            {
+
                 Debug.LogException(ex);
             }
         }
@@ -81,8 +141,8 @@ namespace Trellcko.DefenseFromMonster.Network.LobbyLogic
                 {
                     if (_timeToRefreshLobbiesList > _maxTimeToRefreshLobbiesList)
                     {
-                        var response = await LobbyService.Instance.QueryLobbiesAsync();
                         _timeToRefreshLobbiesList = 0;
+                        var response = await LobbyService.Instance.QueryLobbiesAsync();
                         LobbiesListUpdated?.Invoke(response.Results);
                     }
                     else

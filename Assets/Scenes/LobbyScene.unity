@@ -1705,6 +1705,7 @@ GameObject:
   - component: {fileID: 1009926403}
   - component: {fileID: 1009926402}
   - component: {fileID: 1009926401}
+  - component: {fileID: 1009926404}
   m_Layer: 5
   m_Name: JoinByCode
   m_TagString: Untagged
@@ -1814,6 +1815,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1009926399}
   m_CullTransparentMesh: 1
+--- !u!114 &1009926404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1009926399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16aeeb0e7168a6e4bab995182d2255ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _inputField: {fileID: 231112559}
+  _byCode: {fileID: 1009926401}
 --- !u!1 &1114598655
 GameObject:
   m_ObjectHideFlags: 0
@@ -2066,6 +2081,71 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!1 &1207032798
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1207032801}
+  - component: {fileID: 1207032800}
+  - component: {fileID: 1207032799}
+  m_Layer: 0
+  m_Name: SceneLoader
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1207032799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1207032798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 1676889447
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+--- !u!114 &1207032800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1207032798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55c5b9e5663af7443ac870407e1bc7bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1207032801
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1207032798}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 235.27437, y: 171.31415, z: 3.0332394}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1299576795
 GameObject:
   m_ObjectHideFlags: 0
@@ -3085,7 +3165,20 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1634836805}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1700081779}
+        m_TargetAssemblyTypeName: Trellcko.DefenseFromMonster.Network.LobbyLogic.LobbyManager,
+          Assembly-CSharp
+        m_MethodName: QuickJoinToLobby
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1634836805
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3308,9 +3401,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47367ef6de116a5429a71bcab8c5a130, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxTimeToSendHeartBeat: 30
-  _maxTimeToUpdateLobby: 1.1
-  _maxTimeToRefreshLobbiesList: 0
+  _maxTimeToSendHeartBeat: 35
+  _maxTimeToUpdateLobby: 3
+  _maxTimeToRefreshLobbiesList: 3
 --- !u!4 &1700081780
 Transform:
   m_ObjectHideFlags: 0
@@ -3782,7 +3875,7 @@ PrefabInstance:
     - target: {fileID: 4845276930943762971, guid: 2da3dcc22749e7f4280737786d898334,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000030517578
+      value: 0.000038146973
       objectReference: {fileID: 0}
     - target: {fileID: 4845637959249703711, guid: 2da3dcc22749e7f4280737786d898334,
         type: 3}
@@ -4742,3 +4835,4 @@ SceneRoots:
   - {fileID: 296357547}
   - {fileID: 1763749967}
   - {fileID: 1396050520}
+  - {fileID: 1207032801}
