@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using Unity.Netcode;
 
 namespace Trellcko.DefenseFromMonster.Core
@@ -17,9 +18,15 @@ namespace Trellcko.DefenseFromMonster.Core
             ValueUpdated?.Invoke(); 
         }
 
+        public override void OnNetworkDespawn()
+        {
+            _currentCurrency.OnValueChanged -= OnValueChanged;
+        }
+
         [ServerRpc(RequireOwnership = false)]
         public void AddServerRpc(int value)
         {
+            UnityEngine.Debug.Log("ServeRPC");
             if(value < 0) value = 0;
             _currentCurrency.Value += value;
         }

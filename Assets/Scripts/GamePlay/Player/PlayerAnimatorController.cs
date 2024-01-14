@@ -9,6 +9,7 @@ namespace Trellcko.DefenseFromMonster.Player
         [SerializeField] private Animator _animator;
 
         public event Action PlayerInteractAnimationCompleted;
+        public event Action PlayerInteractAnimationFrameCompleted;
 
         public const string SpeedParameterName = "Speed";
         public const string AttackParameterName = "Attack";
@@ -30,10 +31,21 @@ namespace Trellcko.DefenseFromMonster.Player
                 _animator.SetTrigger(AttackParameterName);
             }
         }
- 
+
+        public void InvokeEventPlayerInteractAnimationFrameCompleted()
+        {
+            if (IsOwner)
+            {
+                PlayerInteractAnimationFrameCompleted?.Invoke();
+            }
+        }
+
         public void InvokeEventPlayerInteractAnimationCompleted()
         {
-            PlayerInteractAnimationCompleted?.Invoke();
+            if (IsOwner)
+            {
+                PlayerInteractAnimationCompleted?.Invoke();
+            }
         }
     }
 }

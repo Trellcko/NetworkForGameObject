@@ -10,7 +10,8 @@ namespace Trellcko.DefenseFromMonster.Player
     public class PlayerBehaviour : NetworkBehaviour
     {
         [SerializeField] private PlayerAnimatorController _animator;
-
+        [SerializeField] private Transform _interactingPoint;
+        
         [SerializeField] private float _speed;
         [SerializeField] private float _angularSpeed;
 
@@ -18,11 +19,16 @@ namespace Trellcko.DefenseFromMonster.Player
 
         private StateMachine _stateMachine;
 
+        public void OnDrawGizmos()
+        {
+            Gizmos.DrawSphere(_interactingPoint.transform.position, 0.1f);
+        }
+
         public override void OnNetworkSpawn()
         {
             _stateMachine = new StateMachine(
                 new PlayerMovingState(_animator, transform, _speed, _angularSpeed),
-                new PlayerInteractingState(_animator)
+                new PlayerInteractingState(_animator, _interactingPoint)
                 );
             _stateMachine.SetState<PlayerMovingState>();
             Spawned?.Invoke(this);
