@@ -64,6 +64,19 @@ namespace Trellcko.DefenseFromMonster.Network.LobbyLogic
             }
         }
 
+        public async void LockLobby()
+        {
+            try
+            {
+                _hostLobby = await LobbyService.Instance.UpdateLobbyAsync(_hostLobby.Id, new() { IsLocked = true });
+            }
+
+            catch(Exception ex)
+            {
+                Debug.LogException(ex);
+            }
+        }
+
         public async void HandlePollLobbyForUpdates()
         {
             if (_joinedLobby != null)

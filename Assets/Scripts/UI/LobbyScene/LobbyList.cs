@@ -9,20 +9,20 @@ namespace Trellcko.DefenseFromMonster.UI.LobbyScene
     {
         [SerializeField] private LobbyListItem _prefab;
         [SerializeField] private RectTransform _parent;
-        [SerializeField] private LobbyManager _manager;
-
+        
         private List<LobbyListItem> _lobbyListItems = new();
+        private List<Lobby> _lobbies;
 
         private float _currentTime;
 
         private void OnEnable()
         {
-            _manager.LobbiesListUpdated += OnLobbiesListUpdated;
+            LobbyManager.Instance.LobbiesListUpdated += OnLobbiesListUpdated;
         }
 
         private void OnDisable()
         {
-            _manager.LobbiesListUpdated -= OnLobbiesListUpdated;
+            LobbyManager.Instance.LobbiesListUpdated -= OnLobbiesListUpdated;
         }
 
         public LobbyListItem CreateLobbyListItem()
@@ -37,6 +37,7 @@ namespace Trellcko.DefenseFromMonster.UI.LobbyScene
                 for(int  i = 0; i< lobbies.Count - _lobbyListItems.Count; i++)
                 {
                     _lobbyListItems.Add(CreateLobbyListItem());
+                    _lobbyListItems[_lobbyListItems.Count - 1].Clicked += OnClicked;
                 }
             }
 
@@ -44,7 +45,7 @@ namespace Trellcko.DefenseFromMonster.UI.LobbyScene
             {
                 for(int i = lobbies.Count; i < _lobbyListItems.Count; i++)
                 {
-                    _lobbyListItems[i - 1].gameObject.SetActive(false);
+                    _lobbyListItems[i].gameObject.SetActive(false);
                 }
             }
 
@@ -53,8 +54,13 @@ namespace Trellcko.DefenseFromMonster.UI.LobbyScene
             for(int  i = 0; i < lobbies.Count; i++)
             {
                 _lobbyListItems[i].gameObject.SetActive(true);
-                _lobbyListItems[i].Initialize(lobbies[i].IsLocked, lobbies[i].Name, lobbies[i].Players.Count, lobbies[i].MaxPlayers);
+                _lobbyListItems[i].Initialize(lobbies[i]);
             }
+        }
+
+        private void OnClicked(Lobby obj)
+        {
+            LobbyManager.Instance.JoinByCode(obj.Id);
         }
     }
 }

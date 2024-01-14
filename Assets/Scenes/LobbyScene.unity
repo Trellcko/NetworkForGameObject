@@ -3875,7 +3875,7 @@ PrefabInstance:
     - target: {fileID: 4845276930943762971, guid: 2da3dcc22749e7f4280737786d898334,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000038146973
+      value: 0.000022888184
       objectReference: {fileID: 0}
     - target: {fileID: 4845637959249703711, guid: 2da3dcc22749e7f4280737786d898334,
         type: 3}
@@ -4608,7 +4608,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _prefab: {fileID: 7668660576953935072, guid: 2d0976f30345bdb44946f19b06623358, type: 3}
   _parent: {fileID: 2099298565}
-  _manager: {fileID: 1700081779}
 --- !u!1 &2099298564
 GameObject:
   m_ObjectHideFlags: 0

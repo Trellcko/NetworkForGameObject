@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Unity.Netcode;
 using Trellcko.DefenseFromMonster.Core;
+using Trellcko.DefenseFromMonster.Network.LobbyLogic;
 
 namespace Trellcko.DefenseFromMonster.Network
 {
@@ -27,6 +28,9 @@ namespace Trellcko.DefenseFromMonster.Network
                     return;
                 }
             }
+
+            LobbyManager.Instance.LockLobby();
+
             SceneLoader.Instance.LoadScene(SceneName.GameScene);
         }
     }
