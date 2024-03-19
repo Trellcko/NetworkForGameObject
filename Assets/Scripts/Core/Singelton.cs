@@ -9,7 +9,7 @@ namespace Trellcko.DefenseFromMonster.Core
 
         public virtual void Awake()
         {
-            if (FindObjectsOfType<NetworkConnecntionHandler>().Length > 1)
+            if (FindObjectsOfType<T>().Length > 1)
             {
                 Destroy(gameObject);
                 return;

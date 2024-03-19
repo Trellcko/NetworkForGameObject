@@ -1,7 +1,7 @@
 using Cinemachine;
 using UnityEngine;
 
-namespace Trellcko.DefenseFromMonster.Player
+namespace Trellcko.Assets.Scripts.GamePlay.Player
 {
     public class PlayerVirtualCameraAttacher : MonoBehaviour
     {

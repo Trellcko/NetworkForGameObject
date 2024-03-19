@@ -2,16 +2,17 @@ using Cinemachine;
 using Sirenix.OdinInspector;
 using System;
 using Trellcko.DefenseFromMonster.Core.SM;
+using Trellcko.DefenseFromMonster.GamePlay.Player;
 using Unity.Netcode;
 using UnityEngine;
 
-namespace Trellcko.DefenseFromMonster.Player
+namespace Trellcko.Assets.Scripts.GamePlay.Player
 {
     public class PlayerBehaviour : NetworkBehaviour
     {
         [SerializeField] private PlayerAnimatorController _animator;
         [SerializeField] private Transform _interactingPoint;
-        
+
         [SerializeField] private float _speed;
         [SerializeField] private float _angularSpeed;
 

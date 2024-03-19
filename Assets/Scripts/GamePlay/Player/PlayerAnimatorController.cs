@@ -2,7 +2,7 @@ using System;
 using Unity.Netcode;
 using UnityEngine;
 
-namespace Trellcko.DefenseFromMonster.Player
+namespace Trellcko.DefenseFromMonster.GamePlay.Player
 {
     public class PlayerAnimatorController : NetworkBehaviour
     {

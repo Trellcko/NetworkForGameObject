@@ -1,15 +1,16 @@
 ﻿using Trellcko.DefenseFromMonster.Core.SM;
 using Trellcko.DefenseFromMonster.GamePlay;
+using Trellcko.DefenseFromMonster.GamePlay.Player;
 using UnityEngine;
 
-namespace Trellcko.DefenseFromMonster.Player
+namespace Trellcko.Assets.Scripts.GamePlay.Player
 {
     public class PlayerInteractingState : BaseState
     {
         private PlayerAnimatorController _animator;
         private Transform _interactPoint;
 
-        private Collider[] _colliders= new Collider[5];
+        private Collider[] _colliders = new Collider[5];
         private float _radius = 0.5f;
 
         public PlayerInteractingState(PlayerAnimatorController animator, Transform interactPoint)
