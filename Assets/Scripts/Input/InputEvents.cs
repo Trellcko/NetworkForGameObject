@@ -36,12 +36,12 @@ namespace Trellcko.DefenseFromMonster.Input
 
         private void OnInteractPerfomed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
         {
-            print("Lalalal");
             InteractPerformed?.Invoke();
         }
 
         private void OnMovementPerformed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
         {
+            print("Move");
             MovementPerfomed?.Invoke(obj.ReadValue<Vector2>());
         }
 

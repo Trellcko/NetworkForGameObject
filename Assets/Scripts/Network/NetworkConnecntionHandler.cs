@@ -73,11 +73,8 @@ namespace Trellcko.DefenseFromMonster.Network
         {
             if (sceneName == SceneName.GameScene.ToString())
             {
-                foreach (var playerId in NetworkManager.ConnectedClientsIds)
-                {
-                    var spawned = Instantiate(_player);
-                    spawned.SpawnAsPlayerObject(playerId, true);
-                }
+
+                Debug.Log("Loaded");
             }
         }
     }
