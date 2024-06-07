@@ -19,6 +19,9 @@ namespace Trellcko.DefenseFromMonster.GamePlay
         [field: TabGroup("Parameters")]
         [field: SerializeField] public float AngularSpeed;
 
+        [field: TabGroup("Parameters")]
+        [field: SerializeField] public float MeleeAttackDamage;
+
 
         public Tuple<BaseBehaviour, NetworkObject> Create(Vector3 position, Quaternion quaternion)
         {

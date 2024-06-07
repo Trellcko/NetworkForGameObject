@@ -61,7 +61,7 @@ namespace Trellcko.Assets.Scripts.GamePlay.Player
 
         private void OnInteractPerformed()
         {
-            GoToState<PlayerInteractingState>();
+            GoToState<MeleeAttackState>();
         }
     }
 }

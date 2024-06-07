@@ -11,8 +11,8 @@ namespace Trellcko.DefenseFromMonster.GamePlay.Player
 
         [field: SerializeField] public Transform ModelInteractPoint;
 
-        public event Action InteractAnimationCompleted;
-        public event Action InteractAnimationFrameCompleted;
+        public event Action AttackAnimationCompleted;
+        public event Action AttackAnimationFrameCompleted;
 
         public const string SpeedParameterName = "Speed";
         public const string AttackParameterName = "Attack";
@@ -44,7 +44,7 @@ namespace Trellcko.DefenseFromMonster.GamePlay.Player
         {
             if (IsOwner)
             {
-                InteractAnimationFrameCompleted?.Invoke();
+                AttackAnimationFrameCompleted?.Invoke();
             }
         }
 
@@ -52,7 +52,7 @@ namespace Trellcko.DefenseFromMonster.GamePlay.Player
         {
             if (IsOwner)
             {
-                InteractAnimationCompleted?.Invoke();
+                AttackAnimationCompleted?.Invoke();
             }
         }
     }

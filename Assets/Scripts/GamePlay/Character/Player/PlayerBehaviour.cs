@@ -29,7 +29,7 @@ namespace Trellcko.Assets.Scripts.GamePlay.Player
             _stateMachine = new StateMachine(
                 new PlayerMovingState(Animator, transform, 
                 characterData.Speed, characterData.AngularSpeed),
-                new PlayerInteractingState(Animator)
+                new MeleeAttackState(Animator, characterData.MeleeAttackDamage)
                 );
             _stateMachine.SetState<PlayerMovingState>();
         }

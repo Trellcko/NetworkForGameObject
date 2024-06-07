@@ -36,6 +36,7 @@ namespace Trellcko
             {
                 Debug.Log(playerId);
                 var spawned = characterData.Create(Vector3.zero, Quaternion.identity);
+                spawned.Item1.name = spawned.Item1.name + " " + playerId.ToString();
                 spawned.Item2.SpawnAsPlayerObject(playerId, true);
             }
         }
