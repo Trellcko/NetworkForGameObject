@@ -1,10 +1,8 @@
-using Trellcko.DefenseFromMonster.Core.SM;
-using Unity.Netcode;
-using UnityEngine;
+using Trellcko.DefenseFromMonster.GamePlay.Data;
 
-namespace Trellcko.DefenseFromMonster.GamePlay.Enemy
+namespace Trellcko.DefenseFromMonster.GamePlay.Character.Enemy
 {
-    public class EnemyBehaviour : BaseBehaviour
+    public class EnemyBehaviour : BaseCharacterBehaviour
     {
         protected override void InitStateMachine(CharacterData characterData)
         {

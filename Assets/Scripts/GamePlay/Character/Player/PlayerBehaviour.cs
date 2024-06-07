@@ -1,11 +1,11 @@
 using System;
 using Trellcko.DefenseFromMonster.Core.SM;
-using Trellcko.DefenseFromMonster.GamePlay;
+using Trellcko.DefenseFromMonster.GamePlay.Data;
 using UnityEngine;
 
-namespace Trellcko.Assets.Scripts.GamePlay.Player
+namespace Trellcko.DefenseFromMonster.GamePlay.Character.Player
 {
-    public class PlayerBehaviour : BaseBehaviour
+    public class PlayerBehaviour : BaseCharacterBehaviour
     {
         private StateMachine _stateMachine;
 

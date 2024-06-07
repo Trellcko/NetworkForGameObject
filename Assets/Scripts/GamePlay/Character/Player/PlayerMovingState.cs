@@ -1,9 +1,8 @@
 ﻿using Trellcko.DefenseFromMonster.Core.SM;
-using Trellcko.DefenseFromMonster.GamePlay.Player;
 using Trellcko.DefenseFromMonster.Input;
 using UnityEngine;
 
-namespace Trellcko.Assets.Scripts.GamePlay.Player
+namespace Trellcko.DefenseFromMonster.GamePlay.Character.Player
 {
     public class PlayerMovingState : BaseState
     {

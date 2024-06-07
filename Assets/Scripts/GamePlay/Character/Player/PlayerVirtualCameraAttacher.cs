@@ -1,8 +1,8 @@
 using Cinemachine;
-using Trellcko.DefenseFromMonster.Core.SM;
+using Trellcko.DefenseFromMonster.GamePlay.Character;
 using UnityEngine;
 
-namespace Trellcko.Assets.Scripts.GamePlay.Player
+namespace Trellcko.DefenseFromMonster.GamePlay.Character.Player
 {
     public class PlayerVirtualCameraAttacher : MonoBehaviour
     {
@@ -18,7 +18,7 @@ namespace Trellcko.Assets.Scripts.GamePlay.Player
             PlayerBehaviour.Spawned -= OnSpawned;
         }
 
-        private void OnSpawned(BaseBehaviour behaviour)
+        private void OnSpawned(BaseCharacterBehaviour behaviour)
         {
             if (behaviour.IsLocalPlayer)
             {

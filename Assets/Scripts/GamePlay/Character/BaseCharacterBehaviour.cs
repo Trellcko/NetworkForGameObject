@@ -1,16 +1,14 @@
 ﻿using QFSW.QC;
-using Trellcko.DefenseFromMonster.GamePlay;
-using Trellcko.DefenseFromMonster.GamePlay.Player;
+using Trellcko.DefenseFromMonster.GamePlay.Data;
 using Unity.Netcode;
 using UnityEngine;
 
-namespace Trellcko.DefenseFromMonster.Core.SM
+namespace Trellcko.DefenseFromMonster.GamePlay.Character
 {
-    public abstract class BaseBehaviour : NetworkBehaviour, IDamagable
+    public abstract class BaseCharacterBehaviour : NetworkBehaviour, IDamagable
     {
         [SerializeField] protected CharacterAnimatorController Animator;
-
-        float health = 10f;
+        [SerializeField] private Health _health;
 
         public void Init(CharacterData characterData)
         {
@@ -25,10 +23,8 @@ namespace Trellcko.DefenseFromMonster.Core.SM
 
         [ServerRpc(RequireOwnership = false)]
         private void TakeDamageServerRPC(float damage)
-        { 
-            health -= 10f;
-
-            Debug.Log(Animator.transform.parent.name + " "  + health);
+        {
+            _health.TakeDamage(10f);
         }
 
         protected abstract void InitStateMachine(CharacterData characterData);

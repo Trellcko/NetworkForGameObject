@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
+using Trellcko.DefenseFromMonster.GamePlay.Data;
 using UnityEngine;
 
-namespace Trellcko.DefenseFromMonster.GamePlay
+namespace Trellcko.DefenseFromMonster.GamePlay.Character
 {
     public class CharacterSpawner : MonoBehaviour
     {

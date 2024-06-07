@@ -1,8 +1,5 @@
-using System;
 using System.Collections.Generic;
-using Trellcko.Assets.Scripts.GamePlay.Player;
-using Trellcko.DefenseFromMonster.Core.SM;
-using Trellcko.DefenseFromMonster.GamePlay;
+using Trellcko.DefenseFromMonster.GamePlay.Data;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;

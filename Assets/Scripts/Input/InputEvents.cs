@@ -41,7 +41,6 @@ namespace Trellcko.DefenseFromMonster.Input
 
         private void OnMovementPerformed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
         {
-            print("Move");
             MovementPerfomed?.Invoke(obj.ReadValue<Vector2>());
         }
 

@@ -1,9 +1,7 @@
 ﻿using Trellcko.DefenseFromMonster.Core.SM;
-using Trellcko.DefenseFromMonster.GamePlay;
-using Trellcko.DefenseFromMonster.GamePlay.Player;
 using UnityEngine;
 
-namespace Trellcko.Assets.Scripts.GamePlay.Player
+namespace Trellcko.DefenseFromMonster.GamePlay.Character.Player
 {
     public class MeleeAttackState : BaseState
     {
@@ -37,14 +35,12 @@ namespace Trellcko.Assets.Scripts.GamePlay.Player
         {
             int count = Physics.OverlapSphereNonAlloc(_interactPoint.position, _radius, _colliders);
 
-            Debug.Log(count);
             if (count > 0)
             {
                 for (int i = 0; i < count; i++)
                 {
                     if (_colliders[i].TryGetComponent(out IDamagable interactable))
                     {
-                        Debug.Log(_colliders[i].name);
                         interactable.TakeDamage(_damage);
                     }
                 }
