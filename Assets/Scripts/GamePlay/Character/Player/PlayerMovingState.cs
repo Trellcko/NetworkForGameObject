@@ -54,6 +54,10 @@ namespace Trellcko.DefenseFromMonster.GamePlay.Character.Player
         {
             Vector3 target = new Vector3(obj.x, 0, obj.y);
             _direction = target;
+            if (_animator.IsLocalPlayer)
+            {
+                Debug.Log("Target " + target);
+            }
             _animator.SetSpeed(_speed);
 
         }

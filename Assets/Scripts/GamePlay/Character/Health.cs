@@ -21,7 +21,7 @@ namespace Trellcko.DefenseFromMonster.GamePlay.Character
         [ClientRpc]
         private void InvokeUpdateClientRPC(float health)
         {
-            Debug.Log("Health: " + health + " ID: " + this.NetworkObjectId + " Name: " + name);
+            Debug.Log("Health: " + health + " ID: " + this.OwnerClientId + " Name: " + name);
         }
     }
 }

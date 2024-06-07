@@ -15,7 +15,7 @@ namespace Trellcko.DefenseFromMonster.GamePlay.Character
             InitStateMachine(characterData);
         }
 
-        [Command]
+
         public void TakeDamage(float damage)
         {
             TakeDamageServerRPC(damage);
@@ -24,7 +24,7 @@ namespace Trellcko.DefenseFromMonster.GamePlay.Character
         [ServerRpc(RequireOwnership = false)]
         private void TakeDamageServerRPC(float damage)
         {
-            _health.TakeDamage(10f);
+            _health.TakeDamage(damage);
         }
 
         protected abstract void InitStateMachine(CharacterData characterData);
