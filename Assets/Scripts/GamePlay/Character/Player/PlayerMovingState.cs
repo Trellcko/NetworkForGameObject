@@ -1,5 +1,6 @@
 ﻿using Trellcko.DefenseFromMonster.Core.SM;
 using Trellcko.DefenseFromMonster.Input;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace Trellcko.DefenseFromMonster.GamePlay.Character.Player
@@ -13,8 +14,11 @@ namespace Trellcko.DefenseFromMonster.GamePlay.Character.Player
         private float _speed;
         private float _angularSpeed;
 
-        public PlayerMovingState(CharacterAnimatorController animator, Transform transform, float speed, float angularSpeed)
+        private ulong _id;
+
+        public PlayerMovingState(CharacterAnimatorController animator, Transform transform, float speed, float angularSpeed, ulong id)
         {
+            _id = id;
             _animator = animator;
             _transform = transform;
             _speed = speed;
@@ -44,26 +48,27 @@ namespace Trellcko.DefenseFromMonster.GamePlay.Character.Player
                 Time.deltaTime * _angularSpeed);
         }
 
-        private void StopMovement()
+        private void StopMovement(ulong id)
         {
+            if(_id != id) return;
             _direction = Vector3.zero;
             _animator.SetSpeed(0);
         }
 
-        private void SetDirection(Vector2 obj)
+        private void SetDirection(ulong id, Vector2 obj)
         {
+            Debug.Log(obj);
+            if (_id != id) return;
             Vector3 target = new Vector3(obj.x, 0, obj.y);
             _direction = target;
-            if (_animator.IsLocalPlayer)
-            {
-                Debug.Log("Target " + target);
-            }
+
             _animator.SetSpeed(_speed);
 
         }
 
-        private void OnInteractPerformed()
+        private void OnInteractPerformed(ulong id)
         {
+            if (_id != id) return;
             GoToState<MeleeAttackState>();
         }
     }

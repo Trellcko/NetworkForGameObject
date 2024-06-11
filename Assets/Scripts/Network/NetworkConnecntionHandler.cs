@@ -73,7 +73,6 @@ namespace Trellcko.DefenseFromMonster.Network
         {
             if (sceneName == SceneName.GameScene.ToString())
             {
-
                 Debug.Log("Loaded");
             }
         }

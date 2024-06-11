@@ -1,4 +1,3 @@
-using Trellcko.DefenseFromMonster.Network;
 using Unity.Netcode;
 using UnityEngine;
 

@@ -1,33 +1,28 @@
 using System;
 using UnityEngine;
-using Trellcko.DefenseFromMonster.Core;
+using Unity.Netcode;
 
 namespace Trellcko.DefenseFromMonster.Input
 {
-    public class InputEvents : Singelton<InputEvents>
+    public class InputEvents : NetworkSingelton<InputEvents>
     {
         [SerializeField] private InputActions _inputActions;
 
-        public static event Action<Vector2> MovementPerfomed;
-        public static event Action MovementCanceled;
+        public static event Action<ulong, Vector2> MovementPerfomed;
+        public static event Action<ulong> MovementCanceled;
 
-        public static event Action InteractPerformed;
+        public static event Action<ulong> InteractPerformed;
 
-        public override void Awake()
+        public override void OnNetworkSpawn()
         {
-            base.Awake();
             _inputActions = new InputActions();
             _inputActions.Enable();
-        }
-
-        private void OnEnable()
-        {
             _inputActions.Player.Movement.performed += OnMovementPerformed;
             _inputActions.Player.Movement.canceled += OnMovementCanceled;
             _inputActions.Player.Interact.performed += OnInteractPerfomed;
         }
 
-        private void OnDisable()
+        public override void OnNetworkDespawn()
         {
             _inputActions.Player.Movement.performed -= OnMovementPerformed;
             _inputActions.Player.Movement.canceled -= OnMovementCanceled;
@@ -36,17 +31,34 @@ namespace Trellcko.DefenseFromMonster.Input
 
         private void OnInteractPerfomed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
         {
-            InteractPerformed?.Invoke();
+            InvokeIntercatPerfomedServerRPC();
         }
 
         private void OnMovementPerformed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
         {
-            MovementPerfomed?.Invoke(obj.ReadValue<Vector2>());
+            InvokeMovementPerfomedServerRPC(obj.ReadValue<Vector2>());
         }
 
         private void OnMovementCanceled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
         {
-            MovementCanceled?.Invoke();
+            InvokeMovementCanceledServerRPC();
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        public void InvokeMovementPerfomedServerRPC(Vector2 input, ServerRpcParams param = default)
+        {
+            MovementPerfomed?.Invoke(param.Receive.SenderClientId, input);
+        }
+        [ServerRpc(RequireOwnership = false)]
+        public void InvokeMovementCanceledServerRPC(ServerRpcParams param = default)
+        {
+
+            MovementCanceled?.Invoke(param.Receive.SenderClientId);
+        }
+        [ServerRpc(RequireOwnership = false)]
+        public void InvokeIntercatPerfomedServerRPC(ServerRpcParams param = default)
+        {
+            InteractPerformed?.Invoke(param.Receive.SenderClientId);
         }
 
     }

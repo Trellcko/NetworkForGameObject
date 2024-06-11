@@ -1,8 +1,12 @@
+using Mono.CSharp;
 using System.Collections.Generic;
+using Trellcko.DefenseFromMonster.GamePlay.Character;
 using Trellcko.DefenseFromMonster.GamePlay.Data;
 using Unity.Netcode;
+using Unity.Services.Lobbies.Models;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 namespace Trellcko
 {
@@ -31,11 +35,17 @@ namespace Trellcko
         {
             foreach (var playerId in NetworkManager.ConnectedClientsIds)
             {
-                Debug.Log(playerId);
-                var spawned = characterData.Create(Vector3.zero, Quaternion.identity);
-                spawned.Item1.name = spawned.Item1.name + " " + playerId.ToString();
-                spawned.Item2.SpawnAsPlayerObject(playerId, true);
+                SpawnPlayer(playerId);
             }
+        }
+
+        private void SpawnPlayer(ulong playerId)
+        {
+            BaseCharacterBehaviour spawned =
+                Instantiate(characterData.BaseBehaviour, Vector3.zero, Quaternion.identity);
+            NetworkObject result = spawned.GetComponent<NetworkObject>();
+            result.SpawnAsPlayerObject(playerId, true);
+            spawned.Init(characterData);
         }
     }
 }

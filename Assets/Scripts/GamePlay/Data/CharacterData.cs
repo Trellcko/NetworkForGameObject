@@ -22,14 +22,5 @@ namespace Trellcko.DefenseFromMonster.GamePlay.Data
         [field: TabGroup("Parameters")]
         [field: SerializeField] public float MeleeAttackDamage;
 
-
-        public Tuple<BaseCharacterBehaviour, NetworkObject> Create(Vector3 position, Quaternion quaternion)
-        {
-            BaseCharacterBehaviour spawned = Instantiate(BaseBehaviour, position, quaternion);
-            spawned.Init(this);
-            NetworkObject result = spawned.GetComponent<NetworkObject>();
-            
-            return Tuple.Create(spawned, result);
-        }
     }
 }
