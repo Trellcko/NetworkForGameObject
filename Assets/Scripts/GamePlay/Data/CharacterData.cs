@@ -22,5 +22,18 @@ namespace Trellcko.DefenseFromMonster.GamePlay.Data
         [field: TabGroup("Parameters")]
         [field: SerializeField] public float MeleeAttackDamage;
 
+    
+        public CharacterTransportDataSerializer ConvertToTransportData()
+        {
+            CharacterTransportData characterTransportData;
+            
+            characterTransportData.Speed = Speed;
+            characterTransportData.MeleeAttackDamage = MeleeAttackDamage;
+            characterTransportData.AngularSpeed = AngularSpeed;
+            
+                   
+
+            return new CharacterTransportDataSerializer() { myData = characterTransportData };
+        }
     }
 }

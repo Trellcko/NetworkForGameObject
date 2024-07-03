@@ -1,6 +1,7 @@
 using System;
 using Trellcko.DefenseFromMonster.Core.SM;
 using Trellcko.DefenseFromMonster.GamePlay.Data;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace Trellcko.DefenseFromMonster.GamePlay.Character.Player
@@ -10,6 +11,19 @@ namespace Trellcko.DefenseFromMonster.GamePlay.Character.Player
         private StateMachine _stateMachine;
 
         public static event Action<PlayerBehaviour> Spawned;
+
+        private NetworkVariable<ulong> _id = new();
+
+        public void SetId(ulong id)
+        {
+            if (IsServer)
+            {
+                this._id.Value = id;
+                Debug.Log(this._id.Value);
+            }
+        }
+
+        
 
         public void OnDrawGizmos()
         {
@@ -24,11 +38,13 @@ namespace Trellcko.DefenseFromMonster.GamePlay.Character.Player
             Spawned?.Invoke(this);
         }
 
-        protected override void InitStateMachine(CharacterData characterData)
+        protected override void InitStateMachine(CharacterTransportData characterData)
         {
+            Debug.Log("_id id :" + _id.Value);
+
             _stateMachine = new StateMachine(
-                new PlayerMovingState(Animator, transform, 
-                characterData.Speed, characterData.AngularSpeed, NetworkManager.LocalClientId),
+                new PlayerMovingState(Animator, transform,
+                characterData.Speed, characterData.AngularSpeed, OwnerClientId),
                 new MeleeAttackState(Animator, characterData.MeleeAttackDamage)
                 );
             _stateMachine.SetState<PlayerMovingState>();

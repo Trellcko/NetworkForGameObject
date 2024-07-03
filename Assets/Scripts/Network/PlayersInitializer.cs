@@ -1,12 +1,10 @@
-using Mono.CSharp;
 using System.Collections.Generic;
 using Trellcko.DefenseFromMonster.GamePlay.Character;
+using Trellcko.DefenseFromMonster.GamePlay.Character.Player;
 using Trellcko.DefenseFromMonster.GamePlay.Data;
 using Unity.Netcode;
-using Unity.Services.Lobbies.Models;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UIElements;
 
 namespace Trellcko
 {
@@ -41,11 +39,32 @@ namespace Trellcko
 
         private void SpawnPlayer(ulong playerId)
         {
-            BaseCharacterBehaviour spawned =
+             BaseCharacterBehaviour spawned =
                 Instantiate(characterData.BaseBehaviour, Vector3.zero, Quaternion.identity);
             NetworkObject result = spawned.GetComponent<NetworkObject>();
             result.SpawnAsPlayerObject(playerId, true);
-            spawned.Init(characterData);
+
+            (spawned as PlayerBehaviour).SetId(playerId);
+
+            CharacterTransportDataSerializer characterTransportDataSerializer = characterData.ConvertToTransportData();
+
+            spawned.Init(characterTransportDataSerializer.myData);
+
+            Debug.Log("Real + " + spawned.OwnerClientId);
+
+            ClientRpcParams clientRpcParams = new ClientRpcParams
+            {
+                Send = new ClientRpcSendParams
+                {
+                    TargetClientIds = new ulong[] { playerId }
+                }
+            };
+
+            spawned.InitClientRpc(characterTransportDataSerializer, clientRpcParams);
+
+
+            spawned.name += playerId;
         }
     }
+
 }

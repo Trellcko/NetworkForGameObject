@@ -9,9 +9,5 @@ namespace Trellcko.DefenseFromMonster.GamePlay.Character
     {
         [SerializeField] private List<CharacterData> _characterData;
 
-        public CharacterData SpawnCharacterWithID(int id)
-        {
-            return _characterData.Where(x => x.ID == id).FirstOrDefault();
-        }
     }
 }

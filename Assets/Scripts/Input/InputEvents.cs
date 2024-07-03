@@ -36,6 +36,7 @@ namespace Trellcko.DefenseFromMonster.Input
 
         private void OnMovementPerformed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
         {
+            Debug.Log("Try send event to server");
             InvokeMovementPerfomedServerRPC(obj.ReadValue<Vector2>());
         }
 
@@ -47,6 +48,7 @@ namespace Trellcko.DefenseFromMonster.Input
         [ServerRpc(RequireOwnership = false)]
         public void InvokeMovementPerfomedServerRPC(Vector2 input, ServerRpcParams param = default)
         {
+            Debug.Log("event received");
             MovementPerfomed?.Invoke(param.Receive.SenderClientId, input);
         }
         [ServerRpc(RequireOwnership = false)]

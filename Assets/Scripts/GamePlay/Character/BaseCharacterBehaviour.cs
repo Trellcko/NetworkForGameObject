@@ -10,11 +10,19 @@ namespace Trellcko.DefenseFromMonster.GamePlay.Character
         [SerializeField] protected CharacterAnimatorController Animator;
         [SerializeField] private Health _health;
 
-        public void Init(CharacterData characterData)
+        public void Init(CharacterTransportData characterData)
         {
+            Debug.Log("Init by sERVER SIDE");
             InitStateMachine(characterData);
         }
 
+        [ClientRpc]
+        public void InitClientRpc(CharacterTransportDataSerializer characterTransportDataSerializer
+            , ClientRpcParams clientRpcParams = default)
+        {
+            Debug.Log("Init by CLIENT SIDE");
+            InitStateMachine(characterTransportDataSerializer.myData);
+        }
 
         public void TakeDamage(float damage)
         {
@@ -27,6 +35,6 @@ namespace Trellcko.DefenseFromMonster.GamePlay.Character
             _health.TakeDamage(damage);
         }
 
-        protected abstract void InitStateMachine(CharacterData characterData);
+        protected abstract void InitStateMachine(CharacterTransportData characterData);
     }
 }

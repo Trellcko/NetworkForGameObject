@@ -16,27 +16,36 @@ namespace Trellcko.DefenseFromMonster.GamePlay.Character.Player
 
         private ulong _id;
 
+        private int _tick;
+        private float _tickRate = 1f / 60f;
+        private float _tickDeltaTime;
+
+        private const int _buffer = 1024;
+
         public PlayerMovingState(CharacterAnimatorController animator, Transform transform, float speed, float angularSpeed, ulong id)
         {
+            Debug.Log(id + " moving");
             _id = id;
             _animator = animator;
             _transform = transform;
             _speed = speed;
             _angularSpeed = angularSpeed;
-
-
-            InputEvents.MovementPerfomed += SetDirection;
-            InputEvents.MovementCanceled += StopMovement;
         }
 
         public override void Enter()
         {
+            Debug.Log(_id + " in move state");
+
+            InputEvents.MovementCanceled += StopMovement;
+            InputEvents.MovementPerfomed += SetDirection;
             InputEvents.InteractPerformed += OnInteractPerformed;
         }
 
         public override void Exit()
         {
             InputEvents.InteractPerformed -= OnInteractPerformed;
+            InputEvents.MovementPerfomed -= SetDirection;
+            InputEvents.MovementCanceled -= StopMovement;
         }
 
         public override void Update()
@@ -57,7 +66,7 @@ namespace Trellcko.DefenseFromMonster.GamePlay.Character.Player
 
         private void SetDirection(ulong id, Vector2 obj)
         {
-            Debug.Log(obj);
+            Debug.Log(obj + " Id: " + id + " MyId: " + _id + " name: " + _transform.name);
             if (_id != id) return;
             Vector3 target = new Vector3(obj.x, 0, obj.y);
             _direction = target;
